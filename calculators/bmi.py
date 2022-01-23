@@ -21,7 +21,13 @@ class BMICalc:
             return "Obese"
 
     def calculate_bmi(self):
+
+        # Using the exponent operator **
         bmi = int(self.get_weight()) / float(self.get_height()) ** 2
+
+        # # Using PEMDAS
+        # bmi = int(self.get_weight()) / (float(self.get_height()) * float(self.get_height()))
+
         index = self.bmi_indexing(bmi)
 
         print(f"You are {index} ({bmi})")
