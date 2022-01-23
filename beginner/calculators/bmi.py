@@ -34,5 +34,6 @@ class BMICalc:
 
 
 if __name__ == "__main__":
+    print(6 + 4 / 2 - (1 * 2))
     calc = BMICalc()
     calc.calculate_bmi()
