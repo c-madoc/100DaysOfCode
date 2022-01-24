@@ -8,13 +8,13 @@ class BMICalc:
 
     def bmi_indexing(self, bmi):
 
-        if bmi < 18.5:
+        if bmi <= 18.5:
             return "Underweight"
 
-        if bmi < 24.9:
+        if bmi <= 24.9:
             return "Normal"
 
-        if bmi < 29.9:
+        if bmi <= 29.9:
             return "Overweight"
 
         if bmi > 29.9:
@@ -25,12 +25,14 @@ class BMICalc:
         # Using the exponent operator **
         bmi = int(self.get_weight()) / float(self.get_height()) ** 2
 
+        round_bmi = round(bmi, 1)
+
         # # Using PEMDAS
         # bmi = int(self.get_weight()) / (float(self.get_height()) * float(self.get_height()))
 
-        index = self.bmi_indexing(bmi)
+        index = self.bmi_indexing(round_bmi)
 
-        print(f"You are {index} ({bmi})")
+        print(f"You are {index} ({round_bmi})")
 
 
 if __name__ == "__main__":
