@@ -23,6 +23,7 @@ class BandNameGenerator:
     # Log all the band names
     def _write(self, entry):
         with open(self.log_file, "a") as log:
+
             log.write(entry + "\n")
 
     # Generates the name, adding the city and pets name, then adding the result to a log
