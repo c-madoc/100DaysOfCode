@@ -57,7 +57,9 @@ def get_request():
 
 
 def report():
-    report_string = ""
+
+    print("\n")
+
     for k, v in resources.items():
         measure_type = ""
         if k.lower() == "water" or k.lower() == "milk":
@@ -65,18 +67,15 @@ def report():
         elif k.lower() == "coffee":
             measure_type = "g"
 
-        report_string += f"{k.capitalize()}: {v}{measure_type}\n"
+        print(f"{k.capitalize()}: {v}{measure_type}\n---\n")
 
-    report_string += "\n"
     total_money = 0
     for coin, details in coins.items():
         total_money += details['value'] * details['amount']
-        report_string += f"{coin.capitalize()}: {details['amount']}\n"
+        print(f"{coin.capitalize()}: {details['amount']}\n")
 
-    report_string += (f"Total Money: ${total_money}\n"
-                      f"Total Orders: {orders}\n\n")
-
-    print(report_string)
+    print(f"Total Money: ${total_money}\n"
+          f"Total Orders: {orders}\n\n")
 
 
 def get_money():
@@ -116,36 +115,36 @@ def make_coffee(requested: str) -> None:
             for ingredient, amount in items['ingredients'].items():
                 resources[ingredient] -= amount
 
-    # if requested == "espresso":
-    #     print("Heating the espresso...")
-    #     time.sleep(1.5)
-    #     print("Adding espresso...")
-    #     time.sleep(1)
-    #     print("Complete!")
-    #
-    # if requested == "latte":
-    #     print("Heating the espresso...")
-    #     time.sleep(1.5)
-    #     print("Pouring the milk...")
-    #     time.sleep(0.5)
-    #     print("Steaming the milk...")
-    #     time.sleep(1)
-    #     print("Adding espresso...")
-    #     time.sleep(1)
-    #     print("Complete!")
-    #
-    # if requested == "cappuccino":
-    #     print("Heating the espresso...")
-    #     time.sleep(1.5)
-    #     print("Pouring the milk...")
-    #     time.sleep(0.5)
-    #     print("Steaming the milk...")
-    #     time.sleep(1)
-    #     print("Adding milk foam...")
-    #     time.sleep(1)
-    #     print("Adding espresso...")
-    #     time.sleep(1)
-    #     print("Complete!")
+    if requested == "espresso":
+        print("Heating the espresso...")
+        time.sleep(1.5)
+        print("Adding espresso...")
+        time.sleep(1)
+        print("Complete!")
+
+    if requested == "latte":
+        print("Heating the espresso...")
+        time.sleep(1.5)
+        print("Pouring the milk...")
+        time.sleep(0.5)
+        print("Steaming the milk...")
+        time.sleep(1)
+        print("Adding espresso...")
+        time.sleep(1)
+        print("Complete!")
+
+    if requested == "cappuccino":
+        print("Heating the espresso...")
+        time.sleep(1.5)
+        print("Pouring the milk...")
+        time.sleep(0.5)
+        print("Steaming the milk...")
+        time.sleep(1)
+        print("Adding milk foam...")
+        time.sleep(1)
+        print("Adding espresso...")
+        time.sleep(1)
+        print("Complete!")
 
 
 def refund_order(coins):
@@ -192,8 +191,8 @@ if __name__ == "__main__":
     orders = []
 
     while not shutdown:
-        # if orders > 0:
-        # time.sleep(5)
+        if len(orders) > 0:
+            time.sleep(5)
         request = get_request()
 
         # shut down the coffee machine
