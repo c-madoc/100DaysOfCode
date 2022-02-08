@@ -26,6 +26,7 @@ def draw_dashes(amount_of_dashes=10):
     for i in range(amount_of_dashes):
         draw_dash()
 
+
 def draw_object(sides: int, color: str):
     degree = 360 / sides
 
@@ -41,6 +42,7 @@ def draw_object(sides: int, color: str):
             draw.left(degree)
         else:
             draw.right(degree)
+
 
 # for x in range(3, 20):
 #     colors = ["red", "blue", "green", "orange", "brown", "pink"]
@@ -62,12 +64,13 @@ def draw_object(sides: int, color: str):
 #     draw.speed(1000)
 #     draw.forward(30)
 #     draw.setheading(random.choice(directions))
+
 def draw_circle():
     draw.speed("fastest")
     draw.circle(100)
 
-def draw_spirograph(amount: int):
 
+def draw_spirograph(amount: int):
     radius = 360 / amount
     size = 2
 
