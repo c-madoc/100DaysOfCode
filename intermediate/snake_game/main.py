@@ -34,14 +34,16 @@ while game_is_on:
         snake.add_length()
         score.update_score(len(STARTING_POSITIONS), len(snake.snake))
 
+    # collision with wall
     if snake.snake_head.xcor() > 280 or snake.snake_head.xcor() < -280 or snake.snake_head.ycor() > 280 or snake.snake_head.ycor() < -280:
-        game_is_on = False
-        score.game_over()
+        score.reset()
+        snake.reset()
 
+    # collision with tail
     for snake_part in snake.snake[1:]:
         if snake.snake_head.distance(snake_part) < 10:
-            game_is_on = False
-            score.game_over()
+            score.reset()
+            snake.reset()
 
 
 
