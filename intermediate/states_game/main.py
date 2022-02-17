@@ -25,7 +25,8 @@ while len(correct_guesses) < 50:
     # Check if we actually collected the data
     if len(state) > 0:
         # add to correct guesses
-        correct_guesses.append(answer_state)
+        if answer_state not in correct_guesses:
+            correct_guesses.append(answer_state)
 
         # set the naming and how writing to the image should work
         name = turtle.Turtle()
