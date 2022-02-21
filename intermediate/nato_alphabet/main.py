@@ -4,9 +4,21 @@ import pandas
 
 df = pandas.read_csv("nato_phonetic_alphabet.csv")
 
-nato = {row.letter: row.code for (index, row) in df.iterrows()}
-word = input("Enter a word: ").upper()
+phonetic_dict = {row.letter: row.code for (index, row) in df.iterrows()}
 
-phonetics = [nato[letter] for letter in word]
-print(phonetics)
 
+def generate_phonetic():
+    word = input("Enter a word: ").upper()
+
+    try:
+        output = [phonetic_dict[letter] for letter in word]
+
+    except KeyError:
+        print("Only letters in the alphabet are accepted.")
+        generate_phonetic()
+
+    else:
+        print(output)
+
+
+generate_phonetic()
