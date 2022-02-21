@@ -4,33 +4,27 @@ import random
 from tkinter import *
 from tkinter import messagebox
 
+
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
-characters = list(string.ascii_letters + string.digits + "!@#$%^&*()")
 
+def generate_random_password():
+    characters = list(string.ascii_letters + string.digits + "!@#$%^&*()")
 
-def generate_random_password(characters=None):
-    length = 12
-
-    random.shuffle(characters)
+    length = random.randint(10, 22)
 
     password = []
     for i in range(length):
         password.append(random.choice(characters))
 
-    random.shuffle(password)
-
-    pw = ""
-    for char in password:
-        pw += char
-
-    return pw
+    return "".join(password)
 
 
 def generate():
-    generated_password = generate_random_password(characters)
+    generated_password = generate_random_password()
     pw_entry.delete(0, END)
     pw_entry.insert(0, string=generated_password)
+
 
 # ---------------------------- SEARCH PASSWORD ------------------------------- #
 
@@ -38,21 +32,23 @@ def generate():
 def search():
     website = web_entry.get()
 
-    if len(website) == 0:
-        messagebox.showerror("Missing field!", "You cannot leave any fields empty!")
-
     try:
         with open("saved_passwords.json", "r") as saved_data:
             data = json.load(saved_data)
 
-    except (FileNotFoundError, KeyError):
+            email = data[website]['email']
+            password = data[website]['password']
+    except FileNotFoundError:
         messagebox.showerror("Error",
-                             f"Could not find login details for {website}.")
-
+                             f"Could not find database.")
+    except KeyError:
+        if len(website) == 0:
+            messagebox.showerror("Error",
+                                 f"You must specify a website!")
+        else:
+            messagebox.showerror("Error",
+                                 f"Could not find login details for {website}.")
     else:
-        email = data[website]['email']
-        password = data[website]['password']
-
         messagebox.showinfo("Login Found",
                             f"Login details for: {website}\n\n"
                             f"Email: {email}\n"
