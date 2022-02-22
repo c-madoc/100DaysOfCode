@@ -7,17 +7,18 @@ from tkinter import messagebox
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
+def generate_random_password(length=12, special_chars=True, digits=True):
+    characters = string.ascii_letters
 
-def generate_random_password():
-    characters = list(string.ascii_letters + string.digits + "!@#$%^&*()")
+    if special_chars:
+        characters += "!@#$%^&*()"
 
-    length = random.randint(10, 22)
+    if digits:
+        characters += string.digits
 
-    password = []
-    for i in range(length):
-        password.append(random.choice(characters))
+    password = [random.choice(characters) for i in range(length)]
 
-    return "".join(password)
+    return ''.join(password)
 
 
 def generate():
