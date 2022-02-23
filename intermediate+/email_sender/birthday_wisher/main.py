@@ -23,4 +23,6 @@ with smtplib.SMTP("smtp.gmail.com", 587) as server:
         to_addrs=birthday['email'],
         msg=f"Subject: Happy Birthday!\n\n{letter}"
     )
+    print(f"Send birthday letter to {birthday['name']}")
+
 
