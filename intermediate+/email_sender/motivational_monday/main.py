@@ -1,52 +1,63 @@
-import calendar
-import os
-import random
 import smtplib
-import datetime as dt
+from apscheduler.schedulers.background import BlockingScheduler
+from apscheduler.triggers.cron import CronTrigger
+import tools.utils as util
 
-
-def get_line(path: str):
-    if os.path.exists(path):
-        with open(path, "r") as file:
-            return file.readline().replace("\n", "")
-    else:
-        print(f"Missing required '{path}' file.")
-
-
-def get_random_quote():
-    if os.path.exists("quotes.txt"):
-        with open("quotes.txt", "r") as file:
-            return random.choice(file.readlines())
-
-
-# ------------- DATETIME MANAGER -------------------
-now = dt.datetime.now()
-day_of_week = calendar.day_name[now.weekday()]
-print(f"Day: {day_of_week}")
-
-# ------------- SENDING TO -------------------
-email_list = []
-emails = []
 
 # ------------- EMAIL CONTENTS -------------------
-SUBJECT = f"Motivational {day_of_week}"
-QUOTE = get_random_quote()
-SIGNATURE = "Have a great day!"
 
-# ------------- LOGIN -------------------
-my_email = get_line(".email.txt")
-my_password = get_line(".pass.txt")
+QUOTE = util.get_random_quote()
+SIGNATURE = "Happy Monday!\nAll the best,\n\nK"
+SIGNATURE2 = "All the best,\n\nK"
 
-with smtplib.SMTP("smtp.gmail.com", 587) as server:
-    server.starttls()  # Encrypts connection
-    server.login(user=my_email, password=my_password)
 
-    if day_of_week == "Monday":
-        print(f"Sending quote: {QUOTE}")
-        for email in emails:
+# ------------- SEND EMAILS -------------------
+
+def send_quote() -> None:
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()  # Encrypts connection
+        server.login(user=util.smtp_login(), password=util.smtp_password())
+
+        for user in util.get_recipients():
+
             server.sendmail(
-                from_addr=my_email,
-                to_addrs=email,
-                msg=f"Subject:{SUBJECT}\n\n{QUOTE}\n\n{SIGNATURE}"
+                from_addr=util.smtp_login(),
+                to_addrs=user['email'],
+                msg=(
+                    f"Subject:Motivational Monday\n\n"
+                    f"Good morning, {user['name']}\n\n"
+                    f"{QUOTE}\n\n"
+                    f"{util.get_weather(user)}\n\n"
+                    f"{SIGNATURE}")
             )
-            print(f"Email sent to {email}")
+            print(f"Sent email to {user['email']}")
+
+
+def send_weather() -> None:
+    with smtplib.SMTP("smtp.gmail.com", 587) as server:
+        server.starttls()  # Encrypts connection
+        server.login(user=util.smtp_login(), password=util.smtp_password())
+
+        for user in util.get_recipients():
+
+            server.sendmail(
+                from_addr=util.smtp_login(),
+                to_addrs=user['email'],
+                msg=(
+                    f"Subject:Weather Report\n\n"
+                    f"Good morning, {user['name']}\n\n"
+                    f"{util.get_weather(user)}\n\n"
+                    f"{SIGNATURE2}")
+            )
+            print(f"Sent email to {user['email']}")
+
+
+if __name__ == "__main__":
+    print("Emailer started.")
+    send_weather()
+    scheduler = BlockingScheduler()
+    motivational_mondays = CronTrigger(day_of_week="mon", hour=8, timezone="Canada/Mountain")
+    weather_updates = CronTrigger(day_of_week="tue-sun", hour=8, timezone="Canada/Mountain")
+    scheduler.add_job(send_quote, motivational_mondays)
+    scheduler.add_job(send_weather, weather_updates)
+    scheduler.start()
