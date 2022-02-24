@@ -54,7 +54,6 @@ def send_weather() -> None:
 
 if __name__ == "__main__":
     print("Emailer started.")
-    send_weather()
     scheduler = BlockingScheduler()
     motivational_mondays = CronTrigger(day_of_week="mon", hour=8, timezone="Canada/Mountain")
     weather_updates = CronTrigger(day_of_week="tue-sun", hour=8, timezone="Canada/Mountain")
