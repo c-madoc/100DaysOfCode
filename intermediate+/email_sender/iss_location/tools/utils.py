@@ -105,7 +105,6 @@ def dark_outside(user) -> bool:
 
 def iss_above(user):
     iss_lat, iss_long = __get_iss_location()
-    print(iss_lat, iss_long)
     user_lat = user['latitude']
     user_long = user['longitude']
 
