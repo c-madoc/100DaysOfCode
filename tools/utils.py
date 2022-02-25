@@ -18,6 +18,7 @@ from random import randint
 import requests
 from bs4 import BeautifulSoup as bs
 
+
 class TextUtils:
     """Contains a collection of text formatting utilities such as random case conversion and making a input alphanumeric only."""
 
