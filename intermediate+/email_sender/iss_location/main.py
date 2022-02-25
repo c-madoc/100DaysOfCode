@@ -19,19 +19,17 @@ def send_iss_location() -> None:
         server.login(user=util.smtp_login(), password=util.smtp_password())
 
         for user in util.get_recipients():
-            if util.iss_above(user):
-                if util.dark_outside(user):
-
-                    server.sendmail(
-                        from_addr=util.smtp_login(),
-                        to_addrs=user['email'],
-                        msg=(
-                            f"Subject:ISS Overhead\n\n"
-                            f"Hi, {user['name']}\n\n"
-                            f"The ISS is currently above {user['city']}."
-                        )
+            if util.iss_above(user) and util.dark_outside(user):
+                server.sendmail(
+                    from_addr=util.smtp_login(),
+                    to_addrs=user['email'],
+                    msg=(
+                        f"Subject:ISS Overhead\n\n"
+                        f"Hi, {user['name']}\n\n"
+                        f"The ISS is currently above {user['city']}."
                     )
-                    print(f"Sent email to {user['email']}")
+                )
+                print(f"Sent email to {user['email']}")
 
 
 if __name__ == "__main__":
