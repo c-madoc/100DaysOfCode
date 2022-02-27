@@ -8,14 +8,6 @@ import requests
 ROOT_URL = "https://api.openweathermap.org/data/2.5/onecall"
 
 
-def get_key(path):
-    if os.path.exists(path):
-        with open(path, "r") as file:
-            return file.readline().replace("\n", "")
-    else:
-        print(f"Missing required '{path}' file.")
-
-
 def get_phone_numbers() -> list:
     df = pandas.read_csv("./data/.recipients.csv")
     emails = []
@@ -29,7 +21,7 @@ class Data:
         self.params = {
             "lat": 32.514252,
             "lon": -93.747772,
-            "appid": get_key("./data/.api.txt"),
+            "appid": os.environ.get("OWM_API_KEY"),
             "exclude": "current,minutely,daily"
         }
 
@@ -56,8 +48,8 @@ class Data:
 
 class SMS:
     def __init__(self):
-        self.sid = get_key("./data/.twilio_sid.txt")
-        self.token = get_key("./data/.twilio_token.txt")
+        self.sid = os.environ.get("TWILIO_SID")
+        self.token = os.environ.get("TWILIO_TOKEN")
         self.client = Client(self.sid, self.token)
         self.phone_number = "+19035688571"
 
@@ -65,11 +57,16 @@ class SMS:
         df = pandas.read_csv("./data/.recipients.csv")
 
         for i, person in df.iterrows():
-            message = self.client.messages.create(
-                body=f"Good morning, {person['name']}. It's going to rain today.",
-                from_=self.phone_number,
-                to=person['phone']
-            )
-            print(f"To: {person['name']} Status: {message.status}")
+            try:
+                message = self.client.messages.create(
+                    body=f"Good morning, {person['name']}. It's going to rain today.",
+                    from_=self.phone_number,
+                    to=person['phone']
+                )
+            except Exception as e:
+                print(f"Error delivering to {person['name']}: {e}")
+            else:
+                print(f"To: {person['name']} Status: {message.status}")
+
 
 

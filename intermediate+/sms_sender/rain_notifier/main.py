@@ -3,6 +3,8 @@ from apscheduler.triggers.cron import CronTrigger
 
 from tools import utils
 
+print(utils.Data().params)
+utils.SMS().send_sms()
 
 def check_and_text():
     if utils.Data().will_rain():
@@ -13,6 +15,6 @@ def check_and_text():
 if __name__ == "__main__":
     print("Rain checker started.")
     scheduler = BlockingScheduler()
-    schedule = CronTrigger(day_of_week="mon-sun", hour=20, minute=51, timezone="Canada/Mountain")
+    schedule = CronTrigger(day_of_week="mon-sun", hour=21, minute=4, timezone="Canada/Mountain")
     scheduler.add_job(check_and_text, schedule)
     scheduler.start()
