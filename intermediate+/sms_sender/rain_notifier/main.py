@@ -6,7 +6,7 @@ from tools import utils
 
 def check_and_text():
     if utils.Data().will_rain():
-        print("it will rain.")
+        print("It will rain. Notifying.")
         utils.SMS().send_sms()
 
 

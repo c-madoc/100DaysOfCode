@@ -70,6 +70,6 @@ class SMS:
                 from_=self.phone_number,
                 to=person['phone']
             )
-        print(message.status)
+            print(f"To: {person['name']} Status: {message.status}")
 
 
