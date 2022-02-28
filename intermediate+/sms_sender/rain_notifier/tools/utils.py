@@ -1,5 +1,7 @@
 import os
 
+from dotenv import load_dotenv
+
 import pandas
 from twilio.rest import Client
 
@@ -7,6 +9,7 @@ import requests
 
 ROOT_URL = "https://api.openweathermap.org/data/2.5/onecall"
 
+load_dotenv()
 
 def get_phone_numbers() -> list:
     df = pandas.read_csv("./data/.recipients.csv")

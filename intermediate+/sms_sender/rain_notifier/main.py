@@ -3,9 +3,6 @@ from apscheduler.triggers.cron import CronTrigger
 
 from tools import utils
 
-print(utils.Data().params)
-utils.SMS().send_sms()
-
 def check_and_text():
     if utils.Data().will_rain():
         print("It will rain. Notifying.")
