@@ -39,7 +39,7 @@ class FlightFinder:
             "fly_to": to_city,
             "date_from ": from_date,
             "date_to ": to_date,
-            "limit": 3
+            "limit": limit
         }
         cheapest_price = None
         r = requests.get(url=flight_search_endpoint,
